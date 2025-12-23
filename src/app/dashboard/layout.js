@@ -49,7 +49,7 @@ export default function DashboardLayout({ children }) {
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Header with Page Title */}
-        {/* <Header onMenuClick={toggleSidebar} /> */}
+        <Header onMenuClick={toggleSidebar} />
 
         {/* Page Content */}
         <main className="flex-1 overflow-auto bg-gray-50">{children}</main>

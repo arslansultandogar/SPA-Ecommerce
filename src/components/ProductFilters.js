@@ -102,7 +102,7 @@ export default function ProductFilters({
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-md p-5 animate-in slide-in-left">
+    <div className="animate-in slide-in-left">
       <h2 className="text-lg font-bold text-gray-900 mb-5 pb-4 border-b-2 border-gray-100">
         Filters & Sort
       </h2>

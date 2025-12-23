@@ -1,6 +1,6 @@
 "use client";
 
-import { ShoppingCartIcon } from "lucide-react";
+import { ShoppingCartIcon, Package } from "lucide-react";
 
 /**
  * ProductCard Component
@@ -20,7 +20,7 @@ export default function ProductCard({ product }) {
   const getStarRating = (rating) => {
     const fullStars = Math.floor(rating);
     const hasHalfStar = rating % 1 !== 0;
-    let stars = "⭐".repeat(fullStars);
+    let stars = "★".repeat(fullStars);
     if (hasHalfStar) stars += "½";
     return stars;
   };
@@ -36,11 +36,11 @@ export default function ProductCard({ product }) {
     <div className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col h-full animate-in fade-in slide-in-up">
       {/* Image Container */}
       <div className="relative w-full aspect-square bg-linear-to-br from-gray-100 via-gray-100 to-gray-200 flex items-center justify-center overflow-hidden">
-        <div className="text-6xl">📦</div>
+        <Package size={80} className="text-gray-400" />
 
         {/* Discount Badge */}
         {discountPercent > 0 && (
-          <div className="absolute top-3 right-3 bg-linear-to-r from-pink-400 via-pink-400 to-red-500 text-white px-3 py-1 rounded-full text-xs font-bold animate-in slide-in-down">
+          <div className="absolute top-3 right-3 bg-red-700 text-white px-3 py-1 rounded-full text-xs font-bold animate-in slide-in-down">
             {discountPercent}% OFF
           </div>
         )}

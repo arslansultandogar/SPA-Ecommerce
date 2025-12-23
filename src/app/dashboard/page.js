@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { Zap, Shield, Star, MessageCircle, Package } from "lucide-react";
 
 /**
  * Welcome Page Component
@@ -21,16 +22,6 @@ export default function WelcomePage() {
     <div className="w-full mx-auto animate-in fade-in">
       {/* Welcome Card */}
       <div className="">
-        {/* Header Section */}
-        <div className="bg-linear-to-r from-red-600 via-red-600 to-red-700 p-8 md:p-12 text-center text-white animate-in slide-in-down">
-          <h1 className="text-4xl md:text-5xl font-bold mb-3">
-            Welcome to Our E-Commerce Store
-          </h1>
-          <p className="text-lg text-red-100">
-            Discover amazing products at great prices
-          </p>
-        </div>
-
         {/* Features Section */}
         <div className="p-8 md:p-12">
           <h2 className="text-2xl font-bold text-gray-900 mb-8">
@@ -38,7 +29,7 @@ export default function WelcomePage() {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="p-6 bg-linear-to-br from-blue-50 via-blue-50 to-blue-100 rounded-xl border border-blue-200 hover:shadow-md transition-all">
-              <div className="text-3xl mb-3">⚡</div>
+              <Zap size={32} className="text-blue-600 mb-3" />
               <h3 className="text-lg font-bold text-blue-900 mb-2">
                 Fast Delivery
               </h3>
@@ -48,7 +39,7 @@ export default function WelcomePage() {
             </div>
 
             <div className="p-6 bg-linear-to-br from-green-50 via-green-50 to-green-100 rounded-xl border border-green-200 hover:shadow-md transition-all">
-              <div className="text-3xl mb-3">🛡️</div>
+              <Shield size={32} className="text-green-600 mb-3" />
               <h3 className="text-lg font-bold text-green-900 mb-2">
                 Secure Payment
               </h3>
@@ -58,7 +49,7 @@ export default function WelcomePage() {
             </div>
 
             <div className="p-6 bg-linear-to-br from-yellow-50 to-yellow-100 rounded-xl border border-yellow-200 hover:shadow-md transition-all">
-              <div className="text-3xl mb-3">⭐</div>
+              <Star size={32} className="text-yellow-600 mb-3" />
               <h3 className="text-lg font-bold text-yellow-900 mb-2">
                 Quality Products
               </h3>
@@ -68,7 +59,7 @@ export default function WelcomePage() {
             </div>
 
             <div className="p-6 bg-linear-to-br from-pink-50 to-pink-100 rounded-xl border border-pink-200 hover:shadow-md transition-all">
-              <div className="text-3xl mb-3">💬</div>
+              <MessageCircle size={32} className="text-pink-600 mb-3" />
               <h3 className="text-lg font-bold text-pink-900 mb-2">
                 Great Support
               </h3>
@@ -108,7 +99,12 @@ export default function WelcomePage() {
           </div>
           <div className="p-6 text-center hover:bg-red-50 transition-all">
             <div className="text-3xl md:text-4xl font-bold text-red-600 mb-2">
-              4.8⭐
+              4.8{" "}
+              <Star
+                size={28}
+                className="inline-block ml-1 text-yellow-500"
+                fill="currentColor"
+              />
             </div>
             <div className="text-gray-700 font-semibold">Average Rating</div>
           </div>

@@ -86,10 +86,10 @@ export default function PaginationControls({
 
   return (
     <div className="flex flex-col items-center gap-6 mt-8 animate-in fade-in">
-      <div className="flex items-center gap-2 flex-wrap justify-center">
+      <div className="flex items-center gap-1 sm:gap-2 flex-wrap justify-center">
         {/* Previous Button */}
         <button
-          className={`px-4 py-2 rounded-lg font-semibold transition-all text-sm ${
+          className={`px-2 sm:px-4 py-2 rounded-lg font-semibold transition-all text-xs sm:text-sm ${
             currentPage === 1
               ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
               : 'bg-red-600 text-white hover:bg-red-700 hover:-translate-y-0.5'
@@ -98,7 +98,7 @@ export default function PaginationControls({
           disabled={currentPage === 1}
           aria-label="Previous page"
         >
-          ← Previous
+          ← Prev
         </button>
 
         {/* Page Numbers */}
@@ -106,7 +106,7 @@ export default function PaginationControls({
           {pageNumbers.map((page, index) => (
             <button
               key={index}
-              className={`w-10 h-10 rounded-lg font-semibold transition-all text-sm ${
+              className={`w-8 h-8 sm:w-10 sm:h-10 rounded-lg font-semibold transition-all text-xs sm:text-sm ${
                 page === '...'
                   ? 'text-gray-600 cursor-default'
                   : page === currentPage
@@ -126,7 +126,7 @@ export default function PaginationControls({
 
         {/* Next Button */}
         <button
-          className={`px-4 py-2 rounded-lg font-semibold transition-all text-sm ${
+          className={`px-2 sm:px-4 py-2 rounded-lg font-semibold transition-all text-xs sm:text-sm ${
             currentPage === totalPages
               ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
               : 'bg-red-600 text-white hover:bg-red-700 hover:-translate-y-0.5'

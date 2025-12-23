@@ -5,6 +5,7 @@ import { getProcessedProducts } from "@/services/productService";
 import ProductCard from "@/components/ProductCard";
 import ProductFilters from "@/components/ProductFilters";
 import PaginationControls from "@/components/PaginationControls";
+import { Settings, AlertCircle, Search } from "lucide-react";
 
 /**
  * Products Page Component
@@ -24,6 +25,9 @@ export default function ProductsPage() {
   // Loading and error state
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  // Mobile filters sidebar state
+  const [showFilters, setShowFilters] = useState(false);
 
   // Filter state
   const [filters, setFilters] = useState({
@@ -104,24 +108,49 @@ export default function ProductsPage() {
 
   return (
     <div className="flex flex-col gap-6 animate-in fade-in">
-      {/* Header Section */}
-      <div className="bg-linear-to-r from-red-600 via-red-600 to-red-700 p-8 md:p-12 text-center text-white animate-in slide-in-down">
-        <h1 className="text-4xl md:text-5xl font-bold mb-3">Our Products</h1>
-        <p className="text-lg text-red-100">
-          Browse our extensive collection of high-quality products
-        </p>
+      {/* Mobile Filter Toggle Button */}
+      <div className="md:hidden px-4 pt-6">
+        <button
+          onClick={() => setShowFilters(!showFilters)}
+          className="w-full flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white py-3 px-4 rounded-lg font-semibold transition-all"
+        >
+          <Settings size={20} />
+          {showFilters ? "Hide Filters" : "Show Filters"}
+        </button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 p-8">
-        {/* Filters Sidebar */}
-        <aside className="md:col-span-1">
-          <ProductFilters
-            filters={filters}
-            onFilterChange={handleFilterChange}
-            onSortChange={handleSortChange}
-            sortBy={sortBy}
-            sortOrder={sortOrder}
-          />
+      {/* Mobile Filter Overlay */}
+      {showFilters && (
+        <div
+          className="md:hidden fixed inset-0 bg-black/50 z-40 animate-in fade-in"
+          onClick={() => setShowFilters(false)}
+        />
+      )}
+
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 px-4 md:p-8 pb-8">
+        {/* Filters Sidebar - Desktop & Mobile Modal */}
+        <aside
+          className={`fixed md:static left-0 top-0 h-screen md:h-auto w-64 md:w-auto bg-white md:bg-transparent z-50 md:z-auto overflow-y-auto md:col-span-1 transition-transform duration-300 ${
+            showFilters ? "translate-x-0" : "-translate-x-full md:translate-x-0"
+          }`}
+        >
+          {/* Close button for mobile */}
+          <button
+            onClick={() => setShowFilters(false)}
+            className="md:hidden absolute top-4 right-4 text-gray-600 hover:text-gray-900 text-2xl"
+          >
+            ✕
+          </button>
+
+          <div className="md:block p-4 md:p-0 mt-12 md:mt-0">
+            <ProductFilters
+              filters={filters}
+              onFilterChange={handleFilterChange}
+              onSortChange={handleSortChange}
+              sortBy={sortBy}
+              sortOrder={sortOrder}
+            />
+          </div>
         </aside>
 
         {/* Products Grid and Pagination */}
@@ -147,7 +176,7 @@ export default function ProductsPage() {
           {error && (
             <div className="bg-red-50 border-l-4 border-red-500 rounded-lg p-4 mb-6 flex items-center justify-between animate-in shake">
               <div className="flex items-center gap-3">
-                <span className="text-2xl">⚠️</span>
+                <AlertCircle size={24} className="text-red-600 shrink-0" />
                 <span className="text-red-700">{error}</span>
               </div>
               <button
@@ -170,7 +199,7 @@ export default function ProductsPage() {
           {/* Products Grid */}
           {!loading && !error && products.length > 0 && (
             <>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-8">
+              <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-8">
                 {products.map((product) => (
                   <ProductCard key={product.id} product={product} />
                 ))}
@@ -188,7 +217,7 @@ export default function ProductsPage() {
           {/* No Products Message */}
           {!loading && !error && products.length === 0 && (
             <div className="flex flex-col items-center justify-center py-16 gap-4 bg-gray-100 rounded-xl">
-              <div className="text-5xl">🔍</div>
+              <Search size={64} className="text-gray-400" />
               <h3 className="text-2xl font-bold text-gray-900">
                 No Products Found
               </h3>

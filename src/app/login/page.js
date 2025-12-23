@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
+import { AlertCircle } from "lucide-react";
 
 /**
  * Login Page Component
@@ -71,7 +72,7 @@ export default function LoginPage() {
           {/* Error Alert */}
           {showError && (
             <div className="bg-red-50 border border-red-200 rounded-lg p-4 flex items-start gap-3 animate-in shake">
-              <span className="text-xl">⚠️</span>
+              <AlertCircle size={20} className="text-red-600 shrink-0 mt-0.5" />
               <span className="text-sm text-red-700">{error}</span>
             </div>
           )}

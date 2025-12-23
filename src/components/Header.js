@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
+import { Menu } from 'lucide-react';
 
 /**
  * Header Component
@@ -33,7 +34,7 @@ export default function Header({ onMenuClick }) {
           onClick={onMenuClick}
           aria-label="Toggle menu"
         >
-          <span className="text-2xl">☰</span>
+          <Menu size={24} className="text-white" />
         </button>
 
         {/* Page Title */}
