@@ -6,6 +6,7 @@ import ProductCard from "@/components/ProductCard";
 import ProductFilters from "@/components/ProductFilters";
 import PaginationControls from "@/components/PaginationControls";
 import { Settings, AlertCircle, Search } from "lucide-react";
+import SearchProduct from "@/components/SearchProduct";
 
 /**
  * Products Page Component
@@ -107,14 +108,14 @@ export default function ProductsPage() {
   };
 
   return (
-    <div className="flex flex-col gap-6 animate-in fade-in">
+    <div className="flex flex-col gap-6 animate-in fade-in relative">
       {/* Mobile Filter Toggle Button */}
       <div className="md:hidden px-4 pt-6">
         <button
           onClick={() => setShowFilters(!showFilters)}
-          className="w-full flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white py-3 px-4 rounded-lg font-semibold transition-all"
+          className="w-full flex items-center justify-center gap-2 bg-slate-900 text-white py-2 px-4 rounded-lg font-semibold text-sm transition-all"
         >
-          <Settings size={20} />
+          <Settings className="w-4 h-4" />
           {showFilters ? "Hide Filters" : "Show Filters"}
         </button>
       </div>
@@ -127,34 +128,51 @@ export default function ProductsPage() {
         />
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 px-4 md:p-8 pb-8">
-        {/* Filters Sidebar - Desktop & Mobile Modal */}
-        <aside
-          className={`fixed md:static left-0 top-0 h-screen md:h-auto w-64 md:w-auto bg-white md:bg-transparent z-50 md:z-auto overflow-y-auto md:col-span-1 transition-transform duration-300 ${
-            showFilters ? "translate-x-0" : "-translate-x-full md:translate-x-0"
-          }`}
+      {/* Mobile Filters - Modal */}
+      <aside
+        className={`md:hidden fixed left-0 top-0 h-screen w-[90%] bg-white z-50 overflow-y-auto transition-transform duration-300 ${
+          showFilters ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        {/* Close button for mobile */}
+        <button
+          onClick={() => setShowFilters(false)}
+          className="absolute top-4 right-4 text-gray-600 hover:text-gray-900 text-2xl"
         >
-          {/* Close button for mobile */}
-          <button
-            onClick={() => setShowFilters(false)}
-            className="md:hidden absolute top-4 right-4 text-gray-600 hover:text-gray-900 text-2xl"
-          >
-            ✕
-          </button>
+          ✕
+        </button>
 
-          <div className="md:block p-4 md:p-0 mt-12 md:mt-0">
-            <ProductFilters
-              filters={filters}
-              onFilterChange={handleFilterChange}
-              onSortChange={handleSortChange}
-              sortBy={sortBy}
-              sortOrder={sortOrder}
-            />
-          </div>
+        <div className="p-4 mt-12">
+          <ProductFilters
+            filters={filters}
+            onFilterChange={handleFilterChange}
+            onSortChange={handleSortChange}
+            sortBy={sortBy}
+            sortOrder={sortOrder}
+          />
+        </div>
+      </aside>
+
+      <div className="w-full grid grid-cols-1 md:grid-cols-4 gap-6 px-4 md:p-8 pb-8 relative">
+        {/* Desktop Filters - Sidebar */}
+        <aside className="hidden md:block col-span-1 sticky top-12 self-start h-fit">
+          <ProductFilters
+            filters={filters}
+            onFilterChange={handleFilterChange}
+            onSortChange={handleSortChange}
+            sortBy={sortBy}
+            sortOrder={sortOrder}
+          />
         </aside>
 
         {/* Products Grid and Pagination */}
-        <main className="md:col-span-3">
+        <main className="w-full md:col-span-3">
+          {/* Search Filter */}
+          <SearchProduct
+            filters={filters}
+            onFilterChange={handleFilterChange}
+          />
+
           {/* Results Info */}
           {!loading && (
             <div className="mb-6 text-sm text-gray-700 bg-gray-100 rounded-lg p-4">

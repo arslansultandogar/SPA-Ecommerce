@@ -15,6 +15,9 @@
     @apply scroll-smooth;
   }
 
+  input {
+    @apply w-full px-3 py-2 border bg-white border-gray-300 rounded-lg text-sm focus:outline-none focus:border-red-600 focus:ring-2 focus:ring-red-100 transition-all;
+  }
   ::selection {
     @apply bg-red-600 text-white;
   }
