@@ -1,12 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { ArrowDown, ArrowUp } from "lucide-react";
+import { useEffect, useState } from "react";
 
 /**
  * ProductFilters Component
- * Provides filtering and sorting controls for products
- * Supports filtering by price range, availability
- * Supports sorting by price, name, rating
  */
 export default function ProductFilters({
   filters,
@@ -14,18 +12,12 @@ export default function ProductFilters({
   onSortChange,
   sortBy,
   sortOrder,
-}) {
-  const [minPrice, setMinPrice] = useState(filters.minPrice || 0);
-  const [maxPrice, setMaxPrice] = useState(filters.maxPrice || 1000);
-  const [onlyAvailable, setOnlyAvailable] = useState(
-    filters.onlyAvailable || false
-  );
 
-  /**
-   * Handle minimum price change
-   */
+}) {
+  const [minPrice, setMinPrice] = useState(filters.minPrice);
+  const [maxPrice, setMaxPrice] = useState(filters.maxPrice);
   const handleMinPriceChange = (e) => {
-    const value = parseFloat(e.target.value) || 0;
+    const value = parseFloat(e.target.value);
     setMinPrice(value);
 
     onFilterChange({
@@ -34,11 +26,9 @@ export default function ProductFilters({
     });
   };
 
-  /**
-   * Handle maximum price change
-   */
+
   const handleMaxPriceChange = (e) => {
-    const value = parseFloat(e.target.value) || 1000;
+    const value = parseFloat(e.target.value);
     setMaxPrice(value);
 
     onFilterChange({
@@ -47,12 +37,9 @@ export default function ProductFilters({
     });
   };
 
-  /**
-   * Handle availability filter toggle
-   */
+
   const handleAvailabilityChange = (e) => {
     const value = e.target.checked;
-    setOnlyAvailable(value);
 
     onFilterChange({
       ...filters,
@@ -60,18 +47,12 @@ export default function ProductFilters({
     });
   };
 
-  /**
-   * Handle sort change
-   */
   const handleSortChange = (field) => {
     // If clicking the same field, toggle order; otherwise set to ascending
     const newOrder = sortBy === field && sortOrder === "asc" ? "desc" : "asc";
     onSortChange(field, newOrder);
   };
 
-  /**
-   * Reset all filters to default values
-   */
   const handleResetFilters = () => {
     setSearchTerm("");
     setMinPrice(0);
@@ -125,10 +106,7 @@ export default function ProductFilters({
             </div>
           </div>
 
-          {/* Price Range Display */}
-          <div className="text-center font-semibold text-red-600 bg-gray-50 rounded py-2 text-sm mt-2">
-            ${minPrice.toFixed(0)} - ${maxPrice.toFixed(0)}
-          </div>
+
         </div>
 
         {/* Availability Filter */}
@@ -141,7 +119,7 @@ export default function ProductFilters({
               id="availability-checkbox"
               type="checkbox"
               className="w-5 h-5 accent-red-600"
-              checked={onlyAvailable}
+              checked={filters.onlyAvailable || false}
               onChange={handleAvailabilityChange}
             />
             <label
@@ -163,7 +141,7 @@ export default function ProductFilters({
               onChange={(e) => handleSortChange(e.target.value)}
             >
               <option value="price">Price</option>
-              <option value="name">Name</option>
+              {/* <option value="name">Name</option> */}
               <option value="rating">Rating</option>
               <option value="discount">Discount</option>
             </select>
@@ -174,7 +152,16 @@ export default function ProductFilters({
               }
               title={`Sort ${sortOrder === "asc" ? "descending" : "ascending"}`}
             >
-              {sortOrder === "asc" ? "↑" : "↓"}
+              {sortOrder === "asc" ? (
+                <>
+                  Low → High
+                </>
+              ) : (
+                <>
+                  High → Low
+                </>
+              )}
+              {/* {sortOrder === "asc" ? "↑" : "↓"} */}
             </button>
           </div>
         </div>

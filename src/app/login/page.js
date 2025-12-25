@@ -1,44 +1,33 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { AlertCircle } from "lucide-react";
 
 /**
  * Login Page Component
- * Handles user authentication with hardcoded admin credentials
- * On successful login, redirects to dashboard
- * On failed login, displays error message
  */
 export default function LoginPage() {
   const router = useRouter();
-  const { login } = useAuth();
+  const { login, user, loading } = useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [showError, setShowError] = useState(false);
 
-  /**
-   * Handle login form submission
-   * Validates credentials and navigates to dashboard on success
-   */
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
     setShowError(false);
-
-    // Validate input fields
     if (!username.trim() || !password.trim()) {
       setError("Please enter both username and password");
       setShowError(true);
       return;
     }
-
-    // Attempt login
     const isSuccess = login(username, password);
     if (isSuccess) {
-      router.push("/dashboard");
+      router.replace("/dashboard");
     } else {
       setError(
         "Invalid credentials. Please try again. (Username: Admin, Password: 123456)"
@@ -48,16 +37,21 @@ export default function LoginPage() {
     }
   };
 
-  /**
-   * Handle demo login - auto-fill correct credentials
-   */
+  useEffect(() => {
+    if (!loading && user) {
+      router.replace("/dashboard");
+    }
+  }, [user, loading, router]);
+
   const handleDemoLogin = () => {
     setUsername("Admin");
     setPassword("123456");
     setError("");
     setShowError(false);
   };
-
+  if (!loading && user) {
+    return null;
+  }
   return (
     <div className="min-h-screen bg-white flex items-center justify-center p-4 animate-in fade-in">
       <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 animate-in zoom-in-50">

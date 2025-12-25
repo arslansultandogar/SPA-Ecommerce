@@ -6,16 +6,11 @@ import { Menu } from 'lucide-react';
 
 /**
  * Header Component
- * Displays the current page title and menu toggle for mobile
- * Updates title based on current route
  */
 export default function Header({ onMenuClick }) {
   const pathname = usePathname();
   const [pageTitle, setPageTitle] = useState('Dashboard');
 
-  /**
-   * Update page title based on current route
-   */
   useEffect(() => {
     const titles = {
       '/dashboard': 'Welcome',

@@ -6,22 +6,15 @@ import { HomeIcon, LogOutIcon, ShoppingCartIcon } from "lucide-react";
 
 /**
  * Sidebar Navigation Component
- * Provides navigation between dashboard pages (Welcome and Products)
- * Also includes logout functionality
  */
 export default function Sidebar({ isOpen, onToggle }) {
   const router = useRouter();
   const pathname = usePathname();
   const { logout } = useAuth();
 
-  /**
-   * Check if a route is currently active
-   */
   const isActive = (route) => pathname === route;
 
-  /**
-   * Handle navigation to a route and close sidebar on mobile
-   */
+ 
   const handleNavigate = (route) => {
     router.push(route);
     // Close sidebar on mobile after navigation
@@ -30,9 +23,6 @@ export default function Sidebar({ isOpen, onToggle }) {
     }
   };
 
-  /**
-   * Handle logout - clear session and redirect to login
-   */
   const handleLogout = () => {
     logout();
     router.push("/login");

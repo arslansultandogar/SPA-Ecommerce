@@ -8,8 +8,6 @@ import Header from "@/components/Header";
 
 /**
  * Dashboard Layout Component
- * Protected layout that requires authentication
- * Includes header with page title and sidebar navigation
  */
 
 export default function DashboardLayout({ children }) {
@@ -23,9 +21,8 @@ export default function DashboardLayout({ children }) {
   }, []);
 
   useEffect(() => {
-    // Redirect to login if not authenticated
     if (mounted && !loading && !user) {
-      router.push("/login");
+      router.replace("/login");
     }
   }, [user, loading, router, mounted]);
 

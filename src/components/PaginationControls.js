@@ -2,31 +2,22 @@
 
 /**
  * PaginationControls Component
- * Provides navigation controls for paginated products
- * Shows current page, total pages, and next/previous buttons
- * Includes page number buttons for direct navigation
  */
 export default function PaginationControls({
   currentPage,
   totalPages,
   onPageChange,
 }) {
-  /**
-   * Generate array of page numbers to display
-   * Shows current page and surrounding pages
-   */
   const getPageNumbers = () => {
     const pages = [];
     const maxVisible = 5;
     let startPage = Math.max(1, currentPage - Math.floor(maxVisible / 2));
     let endPage = Math.min(totalPages, startPage + maxVisible - 1);
 
-    // Adjust start page if we're near the end
     if (endPage - startPage < maxVisible - 1) {
       startPage = Math.max(1, endPage - maxVisible + 1);
     }
 
-    // Add first page if not visible
     if (startPage > 1) {
       pages.push(1);
       if (startPage > 2) {
@@ -34,12 +25,10 @@ export default function PaginationControls({
       }
     }
 
-    // Add page numbers
     for (let i = startPage; i <= endPage; i++) {
       pages.push(i);
     }
 
-    // Add last page if not visible
     if (endPage < totalPages) {
       if (endPage < totalPages - 1) {
         pages.push('...');
@@ -50,34 +39,24 @@ export default function PaginationControls({
     return pages;
   };
 
-  /**
-   * Handle page click
-   */
   const handlePageClick = (page) => {
     if (page !== '...' && typeof page === 'number') {
       onPageChange(page);
     }
   };
 
-  /**
-   * Handle previous page
-   */
   const handlePreviousPage = () => {
     if (currentPage > 1) {
       onPageChange(currentPage - 1);
     }
   };
 
-  /**
-   * Handle next page
-   */
   const handleNextPage = () => {
     if (currentPage < totalPages) {
       onPageChange(currentPage + 1);
     }
   };
 
-  // Don't show pagination if only one page
   if (totalPages <= 1) {
     return null;
   }

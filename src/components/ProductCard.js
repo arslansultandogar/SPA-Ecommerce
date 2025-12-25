@@ -4,30 +4,82 @@ import { ShoppingCartIcon, Package } from "lucide-react";
 
 /**
  * ProductCard Component
- * Displays individual product information in a card format
- * Shows product image, name, price, rating, and availability
  */
 export default function ProductCard({ product }) {
-  // Calculate discount percentage
   const discountPercent = product.discount || 0;
   const originalPrice = product.originalPrice || product.price;
 
-  /**
-   * Generate star rating display
-   * @param {number} rating - Rating value (0-5)
-   * @returns {string} - Star emoji string
-   */
   const getStarRating = (rating) => {
+    const maxStars = 5;
     const fullStars = Math.floor(rating);
     const hasHalfStar = rating % 1 !== 0;
-    let stars = "★".repeat(fullStars);
-    if (hasHalfStar) stars += "½";
+
+    const stars = [];
+    for (let i = 0; i < maxStars; i++) {
+      if (i < fullStars) {
+        // Full star
+        stars.push(
+          <svg
+            key={i}
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            className="w-3 h-3 text-yellow-500"
+            aria-hidden
+          >
+            <path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.788 1.402 8.173L12 18.896l-7.336 3.875 1.402-8.173L.132 9.21l8.2-1.192z" />
+          </svg>
+        );
+      } else if (i === fullStars && hasHalfStar) {
+        // Half star (left half filled)
+        stars.push(
+          <svg
+            key={i}
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            className="w-3 h-3 text-yellow-500"
+            aria-hidden
+          >
+            <defs>
+              <linearGradient id={`half-${product.id}`} x1="0%" x2="100%">
+                <stop offset="50%" stopColor="currentColor" />
+                <stop offset="50%" stopColor="transparent" />
+              </linearGradient>
+            </defs>
+            <path
+              d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.788 1.402 8.173L12 18.896l-7.336 3.875 1.402-8.173L.132 9.21l8.2-1.192z"
+              fill={`url(#half-${product.id})`}
+              stroke="currentColor"
+              strokeWidth="0"
+            />
+            <path
+              d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.788 1.402 8.173L12 18.896l-7.336 3.875 1.402-8.173L.132 9.21l8.2-1.192z"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="0.5"
+            />
+          </svg>
+        );
+      } else {
+        // Empty star
+        stars.push(
+          <svg
+            key={i}
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            className="w-3 h-3 text-yellow-400"
+            aria-hidden
+          >
+            <path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.788 1.402 8.173L12 18.896l-7.336 3.875 1.402-8.173L.132 9.21l8.2-1.192z" />
+          </svg>
+        );
+      }
+    }
     return stars;
   };
 
-  /**
-   * Get availability badge color
-   */
   const getAvailabilityColor = () => {
     return product.availability ? "text-emerald-600" : "text-red-600";
   };
@@ -36,7 +88,18 @@ export default function ProductCard({ product }) {
     <div className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col h-full animate-in fade-in slide-in-up">
       {/* Image Container */}
       <div className="relative w-full aspect-square bg-linear-to-br from-gray-100 via-gray-100 to-gray-200 flex items-center justify-center overflow-hidden">
-        <Package size={80} className="text-gray-400" />
+        {product.image ? (
+          <img
+            src={product.image} 
+            alt={product.name}
+            className="w-full h-full object-contain"
+          />
+        ) : (
+          <div className="flex flex-col items-center justify-center text-gray-400"> 
+            <Package className="w-12 h-12 mb-2" />
+            <span className="text-sm">No Image</span>
+          </div>
+        )}
 
         {/* Discount Badge */}
         {discountPercent > 0 && (
@@ -72,7 +135,7 @@ export default function ProductCard({ product }) {
 
         {/* Rating */}
         <div className="flex items-center gap-2 text-xs">
-          <span className="text-sm tracking-widest">
+          <span className="text-sm tracking-widest inline-flex items-center ">
             {getStarRating(parseFloat(product.rating))}
           </span>
           <span className="text-gray-700">

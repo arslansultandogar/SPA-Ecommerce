@@ -10,24 +10,17 @@ import SearchProduct from "@/components/SearchProduct";
 
 /**
  * Products Page Component
- * Main product listing page with filtering, sorting, and pagination
- * Fetches product data and manages state for user interactions
  */
 export default function ProductsPage() {
-  // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(12);
-
-  // Product data state
+  const [itemsPerPage] = useState(9);
+  
   const [products, setProducts] = useState([]);
-  const [filteredCount, setFilteredCount] = useState(0);
   const [pagination, setPagination] = useState({});
 
-  // Loading and error state
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Mobile filters sidebar state
   const [showFilters, setShowFilters] = useState(false);
 
   // Filter state
@@ -37,15 +30,11 @@ export default function ProductsPage() {
     maxPrice: 1000,
     onlyAvailable: false,
   });
+  const [searchTerm, setSearchTerm] = useState(filters.searchTerm || "");
 
-  // Sort state
   const [sortBy, setSortBy] = useState("price");
   const [sortOrder, setSortOrder] = useState("desc");
 
-  /**
-   * Fetch and process products based on current filters, sort, and pagination
-   * Memoized with useCallback to prevent unnecessary re-renders
-   */
   const fetchAndProcessProducts = useCallback(async () => {
     setLoading(true);
     setError(null);
@@ -62,7 +51,6 @@ export default function ProductsPage() {
       if (result.success) {
         setProducts(result.products);
         setPagination(result.pagination);
-        setFilteredCount(result.pagination.totalProducts);
       } else {
         setError(result.error || "Failed to fetch products");
       }
@@ -74,33 +62,21 @@ export default function ProductsPage() {
     }
   }, [currentPage, itemsPerPage, sortBy, sortOrder, filters]);
 
-  /**
-   * Effect hook to fetch products when page, filters, or sort changes
-   */
   useEffect(() => {
     fetchAndProcessProducts();
   }, [fetchAndProcessProducts]);
 
-  /**
-   * Handle filter changes - reset to page 1 when filters change
-   */
   const handleFilterChange = (newFilters) => {
     setFilters(newFilters);
     setCurrentPage(1);
   };
 
-  /**
-   * Handle sort changes - reset to page 1 when sort changes
-   */
   const handleSortChange = (field, order) => {
     setSortBy(field);
     setSortOrder(order);
     setCurrentPage(1);
   };
 
-  /**
-   * Handle page changes
-   */
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
     // Scroll to top smoothly
@@ -171,6 +147,8 @@ export default function ProductsPage() {
           <SearchProduct
             filters={filters}
             onFilterChange={handleFilterChange}
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
           />
 
           {/* Results Info */}

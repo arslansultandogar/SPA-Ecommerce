@@ -5,15 +5,10 @@ import { Zap, Shield, Star, MessageCircle, Package } from "lucide-react";
 
 /**
  * Welcome Page Component
- * Main dashboard welcome page with introduction and call-to-action
- * Provides navigation to products page
  */
 export default function WelcomePage() {
   const router = useRouter();
 
-  /**
-   * Navigate to products page
-   */
   const handleViewProducts = () => {
     router.push("/dashboard/products");
   };

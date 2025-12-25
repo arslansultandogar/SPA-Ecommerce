@@ -3,20 +3,15 @@
 import { useState } from "react";
 
 /**
- * Product Search or Filter by Name Component
+ * Product Search Component
  */
 
-export default function SearchProduct({ filters, onFilterChange }) {
-  const [searchTerm, setSearchTerm] = useState(filters.searchTerm || "");
-
-  /**
-   * Handle search input change with debouncing
-   */
+export default function SearchProduct({ filters, onFilterChange, searchTerm, setSearchTerm }) {
+  
   const handleSearchChange = (e) => {
     const value = e.target.value;
     setSearchTerm(value);
 
-    // Update parent component with new search term
     onFilterChange({
       ...filters,
       searchTerm: value,

@@ -1,10 +1,9 @@
 'use client';
 
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 
 /**
- * AuthContext - Manages authentication state across the application
- * Provides user authentication state and login/logout methods
+ * AuthContext to manage user authentication state
  */
 const AuthContext = createContext();
 
@@ -12,20 +11,24 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Initialize auth state from localStorage on mount
-  if (typeof window !== 'undefined' && loading) {
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
     const storedUser = localStorage.getItem('authUser');
     if (storedUser) {
-      setUser(JSON.parse(storedUser));
-      setLoading(false);
+      try {
+        setUser(JSON.parse(storedUser));
+      } catch (e) {
+        setUser(null);
+      }
     }
-  }
+    setLoading(false);
+  }, []);
 
   /**
-   * Login function with hardcoded credentials
-   * @param {string} username - Admin username
-   * @param {string} password - Admin password (123456)
-   * @returns {boolean} - True if login successful
+   * Login 
+   * @param {string} username 
+   * @param {string} password 
+   * @returns {boolean} 
    */
   const login = (username, password) => {
     const ADMIN_USERNAME = 'Admin';
@@ -40,9 +43,6 @@ export function AuthProvider({ children }) {
     return false;
   };
 
-  /**
-   * Logout function - clears user session
-   */
   const logout = () => {
     setUser(null);
     localStorage.removeItem('authUser');
@@ -57,7 +57,7 @@ export function AuthProvider({ children }) {
 
 /**
  * Custom hook to use authentication context
- * @returns {Object} - Auth context value with user, login, logout, loading
+ * @returns {Object}
  */
 export function useAuth() {
   const context = useContext(AuthContext);
