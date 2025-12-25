@@ -5,7 +5,9 @@ import { useRouter } from 'next/navigation';
 
 export default function Home() {
   const router = useRouter();
-  const user = localStorage.getItem('authUser');
+  const user = typeof window !== 'undefined'
+    ? localStorage.getItem('authUser')
+    : null;
   useEffect(() => {
     if (user) {
       router.push('/dashboard');
