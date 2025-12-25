@@ -13,7 +13,7 @@ import Header from "@/components/Header";
 export default function DashboardLayout({ children }) {
   const router = useRouter();
   const { user, loading } = useAuth();
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
