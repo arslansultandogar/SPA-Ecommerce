@@ -1,0 +1,54 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --background: #ffffff;
+    --foreground: #171717;
+  }
+
+  body {
+    @apply bg-white text-gray-900 antialiased tracking-tight;
+    font-family: var(--font-geist-sans), sans-serif;
+  }
+
+  html {
+    @apply scroll-smooth;
+  }
+
+  input {
+    @apply w-full px-3 py-2 border bg-white border-gray-300 rounded-lg text-sm focus:outline-none focus:border-red-600 focus:ring-2 focus:ring-red-100 transition-all;
+  }
+  ::selection {
+    @apply bg-red-600 text-white;
+  }
+
+  ::-moz-selection {
+    @apply bg-red-600 text-white;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-red-600 outline-offset-2;
+  }
+
+  button {
+    @apply cursor-pointer;
+  }
+
+  @supports (scrollbar-color: auto) {
+    ::-webkit-scrollbar {
+      @apply w-2;
+    }
+
+    ::-webkit-scrollbar-track {
+      @apply bg-transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      @apply bg-gray-300 rounded;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      @apply bg-gray-400;
+    }
+  }
+}
