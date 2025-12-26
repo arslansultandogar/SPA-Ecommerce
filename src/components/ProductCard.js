@@ -1,84 +1,14 @@
 "use client";
 
 import { ShoppingCartIcon, Package } from "lucide-react";
+import Stars from "@/components/Stars";
 
 /**
  * ProductCard Component
  */
 export default function ProductCard({ product }) {
   const discountPercent = product.discount || 0;
-  const originalPrice = product.originalPrice || product.price;
-
-  const getStarRating = (rating) => {
-    const maxStars = 5;
-    const fullStars = Math.floor(rating);
-    const hasHalfStar = rating % 1 !== 0;
-
-    const stars = [];
-    for (let i = 0; i < maxStars; i++) {
-      if (i < fullStars) {
-        // Full star
-        stars.push(
-          <svg
-            key={i}
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            className="w-3 h-3 text-yellow-500"
-            aria-hidden
-          >
-            <path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.788 1.402 8.173L12 18.896l-7.336 3.875 1.402-8.173L.132 9.21l8.2-1.192z" />
-          </svg>
-        );
-      } else if (i === fullStars && hasHalfStar) {
-        // Half star (left half filled)
-        stars.push(
-          <svg
-            key={i}
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            className="w-3 h-3 text-yellow-500"
-            aria-hidden
-          >
-            <defs>
-              <linearGradient id={`half-${product.id}`} x1="0%" x2="100%">
-                <stop offset="50%" stopColor="currentColor" />
-                <stop offset="50%" stopColor="transparent" />
-              </linearGradient>
-            </defs>
-            <path
-              d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.788 1.402 8.173L12 18.896l-7.336 3.875 1.402-8.173L.132 9.21l8.2-1.192z"
-              fill={`url(#half-${product.id})`}
-              stroke="currentColor"
-              strokeWidth="0"
-            />
-            <path
-              d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.788 1.402 8.173L12 18.896l-7.336 3.875 1.402-8.173L.132 9.21l8.2-1.192z"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="0.5"
-            />
-          </svg>
-        );
-      } else {
-        // Empty star
-        stars.push(
-          <svg
-            key={i}
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            className="w-3 h-3 text-yellow-400"
-            aria-hidden
-          >
-            <path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.788 1.402 8.173L12 18.896l-7.336 3.875 1.402-8.173L.132 9.21l8.2-1.192z" />
-          </svg>
-        );
-      }
-    }
-    return stars;
-  };
+  const originalPrice = product.originalPrice || product.price || 0;
 
   const getAvailabilityColor = () => {
     return product.availability ? "text-emerald-600" : "text-red-600";
@@ -135,13 +65,7 @@ export default function ProductCard({ product }) {
 
         {/* Rating */}
         <div className="flex items-center gap-2 text-xs">
-          <span className="text-sm tracking-widest inline-flex items-center ">
-            {getStarRating(parseFloat(product.rating))}
-          </span>
-          <span className="text-gray-700">
-            {product.rating}
-            <span className="text-gray-500 text-xs">({product.reviews})</span>
-          </span>
+          <Stars rating={parseFloat(product.rating) || 0} reviews={product.reviews || 0} id={product.id || Math.random().toString(36).slice(2)} />
         </div>
 
         {/* Price Section */}

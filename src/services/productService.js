@@ -93,22 +93,23 @@ export function sortProducts(products, sortBy = 'price', order = 'desc') {
  * @returns {Array} 
  */
 export function filterProducts(products, filters = {}) {
-  const {
-    searchTerm = '',
-    minPrice = 0,
-    maxPrice = Infinity,
-    onlyAvailable = false,
-  } = filters;
+  const { searchTerm = '', minPrice, maxPrice, onlyAvailable = false } = filters;
+
+  const minVal =
+    minPrice === '' || minPrice === null || isNaN(Number(minPrice))
+      ? 0
+      : Number(minPrice);
+  const maxVal =
+    maxPrice === '' || maxPrice === null || isNaN(Number(maxPrice))
+      ? Infinity
+      : Number(maxPrice);
 
   return products.filter((product) => {
-    if (
-      searchTerm.trim() &&
-      !product.name.toLowerCase().includes(searchTerm.toLowerCase())
-    ) {
+    if (searchTerm && searchTerm.toString().trim() && !product.name.toLowerCase().includes(searchTerm.toLowerCase())) {
       return false;
     }
     const price = parseFloat(product.price) || 0;
-    if (price < minPrice || price > maxPrice) {
+    if (price < minVal || price > maxVal) {
       return false;
     }
     if (onlyAvailable && !product.availability) {
@@ -142,7 +143,9 @@ export async function getProcessedProducts(options = {}) {
 
     products = filterProducts(products, filters);
 
-    products = sortProducts(products, sortBy, sortOrder);
+    if (sortBy) {
+      products = sortProducts(products, sortBy, sortOrder);
+    }
 
     const totalProducts = products.length;
     const totalPages = Math.ceil(totalProducts / limit);

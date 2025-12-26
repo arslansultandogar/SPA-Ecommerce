@@ -26,14 +26,14 @@ export default function ProductsPage() {
   // Filter state
   const [filters, setFilters] = useState({
     searchTerm: "",
-    minPrice: 0,
-    maxPrice: 1000,
+    minPrice: "",
+    maxPrice: "",
     onlyAvailable: false,
   });
   const [searchTerm, setSearchTerm] = useState(filters.searchTerm || "");
 
-  const [sortBy, setSortBy] = useState("price");
-  const [sortOrder, setSortOrder] = useState("desc");
+  const [sortBy, setSortBy] = useState("");
+  const [sortOrder, setSortOrder] = useState("");
 
   const fetchAndProcessProducts = useCallback(async () => {
     setLoading(true);
@@ -225,8 +225,8 @@ export default function ProductsPage() {
                 onClick={() => {
                   setFilters({
                     searchTerm: "",
-                    minPrice: 0,
-                    maxPrice: 1000,
+                    minPrice: "",
+                    maxPrice: "",
                     onlyAvailable: false,
                   });
                   setCurrentPage(1);

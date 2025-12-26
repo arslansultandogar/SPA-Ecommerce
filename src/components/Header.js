@@ -39,7 +39,10 @@ export default function Header({ onMenuClick }) {
 
         {/* Header Right Section */}
         <div className="flex items-center gap-3">
-          <span className="text-sm md:text-base opacity-90">E-Commerce Store</span>
+          <span className="text-sm md:text-base opacity-90">Admin</span>
+          <div className="w-10 h-10 rounded-full bg-white/10 border border-white/20 flex items-center justify-center overflow-hidden">
+            <div className="text-sm font-semibold text-white">A</div>
+          </div>
         </div>
       </div>
     </header>
